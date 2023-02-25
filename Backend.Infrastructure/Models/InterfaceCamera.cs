@@ -11,5 +11,8 @@ namespace Backend.Infrastructure.Models
         public int Id { get; set; }
         public int CameraId { get; set; }
         public int InterfaceId { get; set; }
+
+        public Interface Interface { get; set; }
+        public Camera Camera { get; set; }
     }
 }
