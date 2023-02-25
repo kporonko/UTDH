@@ -16,32 +16,40 @@ namespace Backend.Controllers
             _cameraService = cameraService;
         }
 
-        [HttpGet()]
-        public async Task<ActionResult<List<Camera>>> Get()
-        {
-            List<Camera> activities = await _cameraService.GetCameras();
-            return Ok(activities);
-        }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<Camera>> GetById(int id)
         {
-            Camera? activities = await _cameraService.GetCameraById(id);
-            return Ok(activities);
+            Camera? camera = await _cameraService.GetCameraById(id);
+
+            if (camera is null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(camera);
         }
 
         [HttpGet("cards")]
         public async Task<ActionResult<List<CameraCard>>> GetCards()
         {
-            List<CameraCard> activities = await _cameraService.GetCameraCards();
-            return Ok(activities);
+            List<CameraCard> cameraCards = await _cameraService.GetCameraCards();
+            if (cameraCards is null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(cameraCards);
         }
 
         [HttpGet("cards/{id}")]
         public async Task<ActionResult<CameraCard>> GetCardbyId(int id)
         {
-            CameraCard? activities = await _cameraService.GetCameraCardById(id);
-            return Ok(activities);
+            CameraCard? cameraCard = await _cameraService.GetCameraCardById(id);
+            if (cameraCard is null)
+            {
+                return NotFound();
+            }
+            return Ok(cameraCard);
         }
     }
 }

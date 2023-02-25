@@ -10,8 +10,7 @@ namespace Backend.Core.Interfaces
 {
     public interface ICameraService
     {
-        Task<List<Camera>> GetCameras();
-        Task<Camera?> GetCameraById(int id);
+        Task<Camera?> GetCameraById(int id); 
         Task<List<CameraCard>> GetCameraCards();
         Task<CameraCard?> GetCameraCardById(int id);
     }
