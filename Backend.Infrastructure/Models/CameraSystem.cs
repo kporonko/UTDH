@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Infrastructure.Models
 {
-    internal class CameraSystem
+    public class CameraSystem
     {
         public int Id { get; set; }
         public int CameraId { get; set; }
