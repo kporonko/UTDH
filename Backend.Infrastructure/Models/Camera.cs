@@ -27,6 +27,15 @@ namespace Backend.Infrastructure.Models
         public bool IsSensorDisplay { get; set; }
         public string ExpositionMode { get; set; }
         public string LCDDiagonal { get; set; }
-        public int MaxZoomValue { get; set; }  
+        public int MaxZoomValue { get; set; }
+
+        public int ResolutionCategoryId { get; set; }
+        public ResolutionCategory ResolutionCategory { get; set; }
+
+        public int ModelId { get; set; }
+        public Model Model { get; set; }
+
+        public List<InterfaceCamera> CameraInterfaces { get; set; }
+        public List<CameraSystem> CameraSystems { get; set; }
     }
 }

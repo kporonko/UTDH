@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Backend.Infrastructure.Models
 {
-    internal class ResolutionCategory
+    public class ResolutionCategory
     {
         public int Id { get; set; }
         public string ResolutionName { get; set; }
         public string Resolution { get; set;}
+
+        public List<Camera> Cameras { get; set; }
     }
 }

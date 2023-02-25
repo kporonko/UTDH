@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Backend.Infrastructure.Models
 {
-    internal class Model
+    public class Model
     {
         public int Id { get; set; }
         public string Manufacturer { get; set; }
         public string ModelName { get; set; }
         public string Country { get; set; }
+
+        public int CameraId { get; set; }
+        public Camera Camera { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Infrastructure.Models
 {
-    internal class Interface
+    public class Interface
     {
         public int Id { get; set; }
         public string InterfaceName { get; set; }

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Backend.Infrastructure.Models
 {
-    internal class System
+    public class System
     {
         public int Id { get; set; }
         public string SystemName { get; set; }
+
+        public List<CameraSystem> CameraSystems { get; set; }
     }
 }
