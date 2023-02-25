@@ -24,21 +24,21 @@ namespace Backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Camera>>> GetById(int id)
+        public async Task<ActionResult<Camera>> GetById(int id)
         {
             Camera? activities = await _cameraService.GetCameraById(id);
             return Ok(activities);
         }
 
         [HttpGet("cards")]
-        public async Task<ActionResult<List<Camera>>> GetCards()
+        public async Task<ActionResult<List<CameraCard>>> GetCards()
         {
             List<CameraCard> activities = await _cameraService.GetCameraCards();
             return Ok(activities);
         }
 
         [HttpGet("cards/{id}")]
-        public async Task<ActionResult<List<Camera>>> GetCardbyId(int id)
+        public async Task<ActionResult<CameraCard>> GetCardbyId(int id)
         {
             CameraCard? activities = await _cameraService.GetCameraCardById(id);
             return Ok(activities);
