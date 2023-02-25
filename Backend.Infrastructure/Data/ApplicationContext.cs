@@ -18,13 +18,13 @@ namespace Backend.Infrastructure.Data
             
         }
 
-        DbSet<Camera> Cameras { get; set; }
-        DbSet<CameraSystem> CameraSystems { get; set; }
-        DbSet<Interface> Interfaces { get; set; }
-        DbSet<InterfaceCamera> InterfaceCameras { get; set; }
-        DbSet<Model> Models { get; set; }
-        DbSet<Backend.Infrastructure.Models.System> Systems { get; set; }
-        DbSet<ResolutionCategory> ResolutionCategories { get; set; }
+        public DbSet<Camera> Cameras { get; set; }
+        public DbSet<CameraSystem> CameraSystems { get; set; }
+        public DbSet<Interface> Interfaces { get; set; }
+        public DbSet<InterfaceCamera> InterfaceCameras { get; set; }
+        public DbSet<Model> Models { get; set; }
+        public DbSet<Backend.Infrastructure.Models.System> Systems { get; set; }
+        public DbSet<ResolutionCategory> ResolutionCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
