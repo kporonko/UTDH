@@ -10,5 +10,7 @@ namespace Backend.Infrastructure.Models
     {
         public int Id { get; set; }
         public string InterfaceName { get; set; }
+
+        public List<InterfaceCamera> InterfaceCameras { get; set; }
     }
 }
