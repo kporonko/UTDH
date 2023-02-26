@@ -29,6 +29,18 @@ namespace Backend.Controllers
             return Ok(camera);
         }
 
+        [HttpGet("cards/search")]
+        public async Task<ActionResult<List<CameraCard>>> GetCardsByModelName([FromQuery(Name = "modelName")] string modelName)
+        {
+            List<CameraCard> cameraCards = await _cameraService.GetCardsByModelName(modelName);
+            if (cameraCards is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(cameraCards);
+        }
+
         [HttpGet("cards")]
         public async Task<ActionResult<List<CameraCard>>> GetCards()
         {

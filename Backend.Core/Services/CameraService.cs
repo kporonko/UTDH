@@ -74,5 +74,12 @@ namespace Backend.Core.Services
 
             return resList;
         }
+
+        public async Task<List<CameraCard>> GetCardsByModelName(string modelName)
+        {
+            var cards = GetCameraCards().Result.Where(card => card.ModelName.StartsWith(modelName)).ToList();
+
+            return cards;
+        }
     }
 }

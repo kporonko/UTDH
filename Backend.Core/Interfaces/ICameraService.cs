@@ -12,6 +12,7 @@ namespace Backend.Core.Interfaces
     {
         Task<CameraDTO?> GetCameraById(int id); 
         Task<List<CameraCard>> GetCameraCards();
+        Task<List<CameraCard>> GetCardsByModelName(string modelName);
         Task<CameraCard?> GetCameraCardById(int id);
     }
 }
