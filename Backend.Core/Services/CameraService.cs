@@ -44,7 +44,10 @@ namespace Backend.Core.Services
         public async Task<CameraCard?> GetCameraCardById(int id)
         {
             var camera = await _context.Cameras.FirstOrDefaultAsync(x => x.Id == id);
-
+            if (camera == null )
+            {
+                return null;
+            }
             _context.Entry(camera).Reference(x => x.Model).Load();
 
             return new CameraCard
