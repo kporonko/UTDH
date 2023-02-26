@@ -17,9 +17,9 @@ namespace Backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Camera>> GetById(int id)
+        public async Task<ActionResult<CameraDTO>> GetById(int id)
         {
-            Camera? camera = await _cameraService.GetCameraById(id);
+            CameraDTO? camera = await _cameraService.GetCameraById(id);
 
             if (camera is null)
             {
@@ -27,6 +27,18 @@ namespace Backend.Controllers
             }
             
             return Ok(camera);
+        }
+
+        [HttpGet("cards/search")]
+        public async Task<ActionResult<List<CameraCard>>> GetCardsByModelName([FromQuery(Name = "modelName")] string modelName)
+        {
+            List<CameraCard> cameraCards = await _cameraService.GetCardsByModelName(modelName);
+            if (cameraCards is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(cameraCards);
         }
 
         [HttpGet("cards")]

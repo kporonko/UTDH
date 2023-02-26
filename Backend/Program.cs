@@ -11,6 +11,9 @@ builder.Services.AddTransient<ICameraService, CameraService>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+// Automapper setup
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,

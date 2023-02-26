@@ -1,4 +1,5 @@
-﻿using Backend.Core.Interfaces;
+﻿using AutoMapper;
+using Backend.Core.Interfaces;
 using Backend.Core.Models;
 using Backend.Infrastructure.Data;
 using Backend.Infrastructure.Models;
@@ -14,28 +15,39 @@ namespace Backend.Core.Services
     public class CameraService : ICameraService
     {
         private ApplicationContext _context;
+        private readonly IMapper _mapper;
 
-        public CameraService(ApplicationContext context)
+        public CameraService(ApplicationContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<Camera?> GetCameraById(int id)
+        public async Task<CameraDTO?> GetCameraById(int id)
         {
             var camera = await _context.Cameras.FirstOrDefaultAsync(x => x.Id == id);
-
+            if (camera == null)
+            {
+                return null;
+            }
             _context.Entry(camera).Reference(x => x.Model).Load();
             _context.Entry(camera).Reference(x => x.ResolutionCategory).Load();
             _context.Entry(camera).Collection(x => x.CameraInterfaces).Query().Include(x => x.Interface).Load();
             _context.Entry(camera).Collection(x => x.CameraSystems).Query().Include(x => x.System).Load();
 
-            return camera;
+            CameraDTO result = new();
+            _mapper.Map(camera, result);
+
+            return result;
         }
 
         public async Task<CameraCard?> GetCameraCardById(int id)
         {
             var camera = await _context.Cameras.FirstOrDefaultAsync(x => x.Id == id);
-
+            if (camera == null )
+            {
+                return null;
+            }
             _context.Entry(camera).Reference(x => x.Model).Load();
 
             return new CameraCard
@@ -64,6 +76,13 @@ namespace Backend.Core.Services
             }
 
             return resList;
+        }
+
+        public async Task<List<CameraCard>> GetCardsByModelName(string modelName)
+        {
+            var cards = GetCameraCards().Result.Where(card => card.ModelName.StartsWith(modelName)).ToList();
+
+            return cards;
         }
     }
 }
