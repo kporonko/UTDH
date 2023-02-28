@@ -37,7 +37,7 @@ namespace Backend.Controllers
                 Currency = "USD",
                 OrderId = data["order_id"].ToString(),
                 Action = LiqPayRequestAction.InvoiceSend,
-                Language = LiqPayRequestLanguage.EN,
+                Language = LiqPayRequestLanguage.UK,
                 Goods = new List<LiqPayRequestGoods> {
                     new LiqPayRequestGoods {
                         Amount = 100,

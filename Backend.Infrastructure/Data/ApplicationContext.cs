@@ -25,6 +25,8 @@ namespace Backend.Infrastructure.Data
         public DbSet<Model> Models { get; set; }
         public DbSet<Backend.Infrastructure.Models.System> Systems { get; set; }
         public DbSet<ResolutionCategory> ResolutionCategories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +37,8 @@ namespace Backend.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new ModelConfiguration());
             modelBuilder.ApplyConfiguration(new ResolutionCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new SystemConfiguration());
+            modelBuilder.ApplyConfiguration(new CartItemConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
 
             modelBuilder.Entity<CameraSystem>()
                 .HasOne(cs => cs.Camera)
@@ -64,6 +68,16 @@ namespace Backend.Infrastructure.Data
                 .HasOne(c => c.ResolutionCategory)
                 .WithMany(rc => rc.Cameras)
                 .HasForeignKey(c => c.ResolutionCategoryId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Camera)
+                .WithMany(c => c.CartItems)
+                .HasForeignKey(ci => ci.CameraId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Order)
+                .WithMany(o => o.CartItems)
+                .HasForeignKey(ci => ci.OrderId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
