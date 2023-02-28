@@ -5,18 +5,27 @@ using LiqPay.SDK;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using Newtonsoft.Json;
+using Backend.Core.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Backend.Controllers
 {
     [ApiController]
-    [Route("payment")]
-    public class PaymentController : Controller
+    [Route("orders")]
+    public class OrderController : Controller
     {
         const string publicApiKey = "";
         const string privateApiKey = "";
 
-        [HttpPost()]
-        public async Task<ActionResult> Post(string jsonData, string signature)
+        private readonly IOrderService _orderService;
+        public OrderController(IOrderService orderService)
+        {
+            _orderService = orderService;
+        }
+
+        [HttpPost("payment")]
+        public async Task<ActionResult> LiqPayPost(string jsonData, string signature)
         {
             var liqPayClient = new LiqPayClient(publicApiKey, privateApiKey);
             string sign = liqPayClient.StrToSign(publicApiKey + jsonData + privateApiKey);
@@ -59,6 +68,17 @@ namespace Backend.Controllers
             {
                 return Ok();
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<string>> Post(OrderPostDTO order)
+        {
+            if (order.CartItems.IsNullOrEmpty())
+            {
+                return BadRequest("Cart is empty");
+            }
+            OrderGetDTO result = await _orderService.PostOrder(order);
+            return Ok(result);
         }
     }
 }

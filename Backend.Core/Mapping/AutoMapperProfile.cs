@@ -15,7 +15,7 @@ namespace Backend.Core.Mapping
     {
         public AutoMapperProfile()
         {
-            CreateMap<Camera, CameraDTO>()
+            CreateMap<Camera, CameraGetDTO>()
                 .ForMember(
                     dest => dest.InterfaceNames,
                     opt => opt.MapFrom(src => src.CameraInterfaces.Select(cameraInterface => cameraInterface.Interface.InterfaceName))
@@ -47,6 +47,17 @@ namespace Backend.Core.Mapping
                 .ForMember(
                     dest => dest.ResolutionName,
                     opt => opt.MapFrom(src => src.ResolutionCategory.ResolutionName)
+                );
+
+            CreateMap<OrderPostDTO, Order>()
+                .ForMember(
+                    dest => dest.CartItems,
+                    opt => opt.Ignore()
+                );
+            CreateMap<Order, OrderGetDTO>()
+                .ForMember(
+                    dest => dest.CartItems,
+                    opt => opt.MapFrom(src => src.CartItems.Select(cartItem => new CartItemDTO { CameraId = cartItem.CameraId, Amount = cartItem.Amount}))
                 );
         }
     }

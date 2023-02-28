@@ -77,7 +77,8 @@ namespace Backend.Infrastructure.Data
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Order)
                 .WithMany(o => o.CartItems)
-                .HasForeignKey(ci => ci.OrderId);
+                .HasForeignKey(ci => ci.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
