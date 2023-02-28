@@ -53,5 +53,10 @@ namespace Backend.Core.Services
             var result = _mapper.Map(_context.Orders.Find(addedOrder), new OrderGetDTO());
             return result;
         }
+
+        public Task<OrderGetDTO> GetOrderById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Backend.Core.Interfaces
     {
         public Task<OrderGetDTO> PostOrder(OrderPostDTO order);
         public Task<bool> DeleteOrder(int id);
+        public Task<OrderGetDTO> GetOrderById(int id);
     }
 }

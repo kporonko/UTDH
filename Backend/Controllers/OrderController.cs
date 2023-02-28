@@ -17,6 +17,7 @@ namespace Backend.Controllers
     {
         const string publicApiKey = "";
         const string privateApiKey = "";
+        LiqPayClient liqPayClient;
 
         private readonly IOrderService _orderService;
         public OrderController(IOrderService orderService)
@@ -27,7 +28,7 @@ namespace Backend.Controllers
         [HttpPost("payment")]
         public async Task<ActionResult> LiqPayPost(string jsonData, string signature)
         {
-            var liqPayClient = new LiqPayClient(publicApiKey, privateApiKey);
+            liqPayClient = new LiqPayClient(publicApiKey, privateApiKey);
             string sign = liqPayClient.StrToSign(publicApiKey + jsonData + privateApiKey);
 
             if (signature != sign)
@@ -36,15 +37,39 @@ namespace Backend.Controllers
             }
 
             var data = JsonConvert.DeserializeObject<Dictionary<String, Object>>(jsonData);
-            data["status"].ToString();
+            string status = data["status"].ToString();
+            switch (status)
+            {
+                case "cash_wait":
+                    await CreateInvoiceAsync(data);
+                    break;
+                case "success":
+                    break;
+            }
+            return Ok();
+        }
 
-            // send invoce by email
+        [HttpPost]
+        public async Task<ActionResult<string>> Post(OrderPostDTO order)
+        {
+            if (order.CartItems.IsNullOrEmpty())
+            {
+                return BadRequest("Cart is empty");
+            }
+            OrderGetDTO result = await _orderService.PostOrder(order);
+            return Ok(result);
+        }
+
+        private async Task CreateInvoiceAsync(Dictionary<String, Object> data)
+        {
+            int orderId = int.Parse(data["order_id"].ToString()!);
+            OrderGetDTO order = await _orderService.GetOrderById(orderId);
             var invoiceRequest = new LiqPayRequest
             {
-                Email = "email@example.com",
+                Email = order.CustomerEmail,
                 Amount = 200,
                 Currency = "USD",
-                OrderId = data["order_id"].ToString(),
+                OrderId = orderId.ToString(),
                 Action = LiqPayRequestAction.InvoiceSend,
                 Language = LiqPayRequestLanguage.UK,
                 Goods = new List<LiqPayRequestGoods> {
@@ -59,26 +84,6 @@ namespace Backend.Controllers
 
             //liqPayClient.IsCnbSandbox = true;
             var response = await liqPayClient.RequestAsync("request", invoiceRequest);
-
-            if (response.Status == LiqPayResponseStatus.Success)
-            {
-                return Ok();
-            }
-            else
-            {
-                return Ok();
-            }
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<string>> Post(OrderPostDTO order)
-        {
-            if (order.CartItems.IsNullOrEmpty())
-            {
-                return BadRequest("Cart is empty");
-            }
-            OrderGetDTO result = await _orderService.PostOrder(order);
-            return Ok(result);
         }
     }
 }
