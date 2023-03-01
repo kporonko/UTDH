@@ -9,8 +9,9 @@ namespace Backend.Core.Interfaces
 {
     public interface IOrderService
     {
-        public Task<OrderGetDTO> PostOrder(OrderPostDTO order);
+        public Task<OrderGetDTO?> PostOrder(OrderPostDTO order);
         public Task<bool> DeleteOrder(int id);
-        public Task<OrderGetDTO> GetOrderById(int id);
+        public Task<OrderGetDTO?> GetOrderById(int id);
+        public Task<List<CameraGetDTO>?> GetOrderCameras(int orderId);
     }
 }

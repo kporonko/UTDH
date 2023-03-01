@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Models
 {
-    public class CartItemDTO
+    public class CartItemGetDTO
     {
         public int Amount { get; set; }
         public int CameraId { get; set; }

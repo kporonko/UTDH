@@ -16,6 +16,6 @@ namespace Backend.Core.Models
         public string CustomerEmail { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerPostOffice { get; set; }
-        public List<CartItemDTO> CartItems { get; set; }
+        public List<CartItemGetDTO> CartItems { get; set; }
     }
 }

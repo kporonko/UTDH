@@ -57,7 +57,7 @@ namespace Backend.Core.Mapping
             CreateMap<Order, OrderGetDTO>()
                 .ForMember(
                     dest => dest.CartItems,
-                    opt => opt.MapFrom(src => src.CartItems.Select(cartItem => new CartItemDTO { CameraId = cartItem.CameraId, Amount = cartItem.Amount}))
+                    opt => opt.MapFrom(src => src.CartItems.Select(cartItem => new CartItemGetDTO { CameraId = cartItem.CameraId, Amount = cartItem.Amount}))
                 );
         }
     }
