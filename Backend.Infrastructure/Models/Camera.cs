@@ -37,5 +37,6 @@ namespace Backend.Infrastructure.Models
 
         public List<InterfaceCamera> CameraInterfaces { get; set; }
         public List<CameraSystem> CameraSystems { get; set; }
+        public List<CartItem> CartItems { get; set; }
     }
 }

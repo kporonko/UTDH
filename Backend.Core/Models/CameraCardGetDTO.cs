@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Models
 {
-    public class CameraCard
+    public class CameraCardGetDTO
     {
         public int Id { get; set; }
         public string Photo { get; set; }

@@ -17,9 +17,9 @@ namespace Backend.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CameraDTO>> GetById(int id)
+        public async Task<ActionResult<CameraGetDTO>> GetById(int id)
         {
-            CameraDTO? camera = await _cameraService.GetCameraById(id);
+            CameraGetDTO? camera = await _cameraService.GetCameraById(id);
 
             if (camera is null)
             {
@@ -30,9 +30,9 @@ namespace Backend.Controllers
         }
 
         [HttpGet("cards/search")]
-        public async Task<ActionResult<List<CameraCard>>> GetCardsByModelName([FromQuery(Name = "modelName")] string modelName)
+        public async Task<ActionResult<List<CameraCardGetDTO>>> GetCardsByModelName([FromQuery(Name = "modelName")] string modelName)
         {
-            List<CameraCard> cameraCards = await _cameraService.GetCardsByModelName(modelName);
+            List<CameraCardGetDTO> cameraCards = await _cameraService.GetCardsByModelName(modelName);
             if (cameraCards is null)
             {
                 return NotFound();
@@ -42,9 +42,9 @@ namespace Backend.Controllers
         }
 
         [HttpGet("cards")]
-        public async Task<ActionResult<List<CameraCard>>> GetCards()
+        public async Task<ActionResult<List<CameraCardGetDTO>>> GetCards()
         {
-            List<CameraCard> cameraCards = await _cameraService.GetCameraCards();
+            List<CameraCardGetDTO> cameraCards = await _cameraService.GetCameraCards();
             if (cameraCards is null)
             {
                 return NotFound();
@@ -54,9 +54,9 @@ namespace Backend.Controllers
         }
 
         [HttpGet("cards/{id}")]
-        public async Task<ActionResult<CameraCard>> GetCardbyId(int id)
+        public async Task<ActionResult<CameraCardGetDTO>> GetCardbyId(int id)
         {
-            CameraCard? cameraCard = await _cameraService.GetCameraCardById(id);
+            CameraCardGetDTO? cameraCard = await _cameraService.GetCameraCardById(id);
             if (cameraCard is null)
             {
                 return NotFound();

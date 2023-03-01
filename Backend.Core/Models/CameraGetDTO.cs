@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Models
 {
-    public class CameraDTO
+    public class CameraGetDTO
     {
         public int Id { get; set; }
         public string Photo { get; set; }

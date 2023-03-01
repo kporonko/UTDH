@@ -23,7 +23,7 @@ namespace Backend.Core.Services
             _mapper = mapper;
         }
 
-        public async Task<CameraDTO?> GetCameraById(int id)
+        public async Task<CameraGetDTO?> GetCameraById(int id)
         {
             var camera = await _context.Cameras.FirstOrDefaultAsync(x => x.Id == id);
             if (camera == null)
@@ -35,13 +35,13 @@ namespace Backend.Core.Services
             _context.Entry(camera).Collection(x => x.CameraInterfaces).Query().Include(x => x.Interface).Load();
             _context.Entry(camera).Collection(x => x.CameraSystems).Query().Include(x => x.System).Load();
 
-            CameraDTO result = new();
+            CameraGetDTO result = new();
             _mapper.Map(camera, result);
 
             return result;
         }
 
-        public async Task<CameraCard?> GetCameraCardById(int id)
+        public async Task<CameraCardGetDTO?> GetCameraCardById(int id)
         {
             var camera = await _context.Cameras.FirstOrDefaultAsync(x => x.Id == id);
             if (camera == null )
@@ -50,7 +50,7 @@ namespace Backend.Core.Services
             }
             _context.Entry(camera).Reference(x => x.Model).Load();
 
-            return new CameraCard
+            return new CameraCardGetDTO
             {
                 Id = camera.Id,
                 ModelName = camera.Model.ModelName,
@@ -59,14 +59,14 @@ namespace Backend.Core.Services
             };
         }
 
-        public async Task<List<CameraCard>> GetCameraCards()
+        public async Task<List<CameraCardGetDTO>> GetCameraCards()
         {
             var cameras = await _context.Cameras.Include(x => x.Model).ToListAsync();
 
-            var resList = new List<CameraCard>();
+            var resList = new List<CameraCardGetDTO>();
             foreach (var camera in cameras)
             {
-                resList.Add(new CameraCard
+                resList.Add(new CameraCardGetDTO
                 {
                     Id = camera.Id,
                     ModelName = camera.Model.ModelName,
@@ -78,7 +78,7 @@ namespace Backend.Core.Services
             return resList;
         }
 
-        public async Task<List<CameraCard>> GetCardsByModelName(string modelName)
+        public async Task<List<CameraCardGetDTO>> GetCardsByModelName(string modelName)
         {
             var cards = GetCameraCards().Result.Where(card => card.ModelName.StartsWith(modelName)).ToList();
 
