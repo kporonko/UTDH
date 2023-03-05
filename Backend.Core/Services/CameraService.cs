@@ -84,5 +84,29 @@ namespace Backend.Core.Services
 
             return cards;
         }
+
+        public async Task<List<CameraGetDTO?>> GetCamerasById(int[] ids)
+        {
+            var resList = new List<CameraGetDTO?>();
+            foreach (var id in ids)
+            {
+                var camera = await _context.Cameras.FirstOrDefaultAsync(x => x.Id == id);
+                if (camera == null)
+                {
+                    return null;
+                }
+                _context.Entry(camera).Reference(x => x.Model).Load();
+                _context.Entry(camera).Reference(x => x.ResolutionCategory).Load();
+                _context.Entry(camera).Collection(x => x.CameraInterfaces).Query().Include(x => x.Interface).Load();
+                _context.Entry(camera).Collection(x => x.CameraSystems).Query().Include(x => x.System).Load();
+
+                CameraGetDTO result = new();
+                _mapper.Map(camera, result);
+                resList.Add(result);
+            }
+
+            return resList;
+
+        }
     }
 }
