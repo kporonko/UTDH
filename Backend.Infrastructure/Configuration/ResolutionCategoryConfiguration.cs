@@ -26,11 +26,11 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.Resolution)
                 .HasColumnName("Resolution")
-                .HasColumnType("varchar(MAX)");
+                .HasColumnType("nvarchar(MAX)");
             builder
                 .Property(t => t.ResolutionName)
                 .HasColumnName("ResolutionName")
-                .HasColumnType("varchar(MAX)");
+                .HasColumnType("nvarchar(MAX)");
         }
     }
 }

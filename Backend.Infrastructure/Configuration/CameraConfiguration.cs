@@ -27,7 +27,7 @@ namespace Backend.Infrastructure.Configuration
                 .Property(t => t.Photo)
                 .IsRequired()
                 .HasColumnName("Photo")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             
             builder
                 .Property(t => t.Price)
@@ -57,19 +57,19 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.LCDMount)
                 .HasColumnName("LCDMount")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.Microphone)
                 .HasColumnName("Microphone")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.Protection)
                 .HasColumnName("Protection")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.Supply)
                 .HasColumnName("Supply")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.IsMacroPhotography)
                 .HasColumnName("IsMacroPhotography")
@@ -77,7 +77,7 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.Stabilization)
                 .HasColumnName("Stabilization")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.IsRAWSupport)
                 .HasColumnName("IsRAWSupport")
@@ -85,7 +85,7 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.SoundFormat)
                 .HasColumnName("SoundFormat")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.IsSensorDisplay)
                 .HasColumnName("IsSensorDisplay")
@@ -93,11 +93,11 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.ExpositionMode)
                 .HasColumnName("ExpositionMode")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.LCDDiagonal)
                 .HasColumnName("LCDDiagonal")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.MaxZoomValue)
                 .HasColumnName("MaxZoomValue")
