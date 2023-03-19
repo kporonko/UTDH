@@ -63,5 +63,16 @@ namespace Backend.Controllers
             }
             return Ok(cameraCard);
         }
+
+        [HttpGet("comparison")]
+        public async Task<ActionResult<List<CameraGetDTO>>> GetCamerasById([FromQuery(Name = "id")] int[] ids)
+        {
+            List<CameraGetDTO?> cameras = await _cameraService.GetCamerasById(ids);
+            if (cameras is null)
+            {
+                return NotFound();
+            }
+            return Ok(cameras);
+        }
     }
 }
