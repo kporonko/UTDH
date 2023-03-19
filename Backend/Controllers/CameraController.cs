@@ -74,5 +74,12 @@ namespace Backend.Controllers
             }
             return Ok(cameras);
         }
+
+        [HttpGet()]
+        public async Task<ActionResult<List<CameraGetDTO>>> GetCameras()
+        {
+            List<CameraGetDTO> cameras = await _cameraService.GetCameras();
+            return Ok(cameras);
+        }
     }
 }
