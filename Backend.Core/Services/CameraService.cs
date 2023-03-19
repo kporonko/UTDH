@@ -108,5 +108,26 @@ namespace Backend.Core.Services
             return resList;
 
         }
+
+        public async Task<List<CameraGetDTO>> GetCameras()
+        {
+            var resList = new List<CameraGetDTO>();
+            var cameras = await _context.Cameras
+                .Include(c => c.Model)
+                .Include(c => c.ResolutionCategory)
+                .Include(c => c.CameraInterfaces)
+                    .ThenInclude(e => e.Interface)
+                .Include(c => c.CameraSystems)
+                    .ThenInclude(e => e.System)
+                .ToListAsync();
+            foreach (var camera in cameras)
+            {
+                CameraGetDTO result = new();
+                _mapper.Map(camera, result);
+                resList.Add(result);
+            }
+
+            return resList;
+        }
     }
 }
