@@ -26,15 +26,15 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.Manufacturer)
                 .HasColumnName("Manufacturer")
-                .HasColumnType("varchar(MAX)");
+                .HasColumnType("nvarchar(MAX)");
             builder
                 .Property(t => t.ModelName)
                 .HasColumnName("ModelName")
-                .HasColumnType("varchar(MAX)");
+                .HasColumnType("nvarchar(MAX)");
             builder
                 .Property(t => t.Country)
                 .HasColumnName("Country")
-                .HasColumnType("varchar(MAX)");
+                .HasColumnType("nvarchar(MAX)");
         }
     }
 }

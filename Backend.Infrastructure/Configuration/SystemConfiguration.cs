@@ -25,7 +25,7 @@ namespace Backend.Infrastructure.Configuration
             builder
                 .Property(t => t.SystemName)
                 .HasColumnName("SystemName")
-                .HasColumnType("varchar(MAX)");
+                .HasColumnType("nvarchar(MAX)");
         }
     }
 }

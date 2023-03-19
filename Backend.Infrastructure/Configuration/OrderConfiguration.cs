@@ -27,37 +27,37 @@ namespace Backend.Infrastructure.Configuration
                 .Property(t => t.CustomerName)
                 .IsRequired()
                 .HasColumnName("CustomerName")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.CustomerSurname)
                 .IsRequired()
                 .HasColumnName("CustomerSurname")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.CustomerPatronymic)
                 .IsRequired()
                 .HasColumnName("CustomerPatronymic")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.CustomerPhone)
                 .IsRequired()
                 .HasColumnName("CustomerPhone")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.CustomerEmail)
                 .IsRequired()
                 .HasColumnName("CustomerEmail")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.CustomerAddress)
                 .IsRequired()
                 .HasColumnName("CustomerAddress")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
             builder
                 .Property(t => t.CustomerPostOffice)
                 .IsRequired()
                 .HasColumnName("CustomerPostOffice")
-                .HasColumnType("varchar(max)");
+                .HasColumnType("nvarchar(max)");
         }
     }
 }

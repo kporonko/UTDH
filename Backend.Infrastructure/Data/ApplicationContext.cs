@@ -30,6 +30,8 @@ namespace Backend.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.UseCollation("Cyrillic_General_CI_AS");
+
             modelBuilder.ApplyConfiguration(new CameraConfiguration());
             modelBuilder.ApplyConfiguration(new CameraSystemConfiguration());
             modelBuilder.ApplyConfiguration(new InterfaceCameraConfiguration());
