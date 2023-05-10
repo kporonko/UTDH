@@ -50,9 +50,9 @@ namespace Backend.Controllers
             string status = data["status"].ToString();
             switch (status)
             {
-                case "cash_wait":
-                    await CreateInvoiceAsync(data);
-                    break;
+                //case "cash_wait":
+                //    await CreateInvoiceAsync(data);
+                //    break;
                 case "success":
                     int orderId = int.Parse(data["order_id"].ToString()!);
                     OrderGetDTO? order = await _orderService.GetOrderById(orderId);
@@ -60,7 +60,7 @@ namespace Backend.Controllers
                     {
                         break;
                     }
-                    // Send email
+                    Send(CreateEmailMessage(order.CustomerEmail, "Order status update", $"Payment for order {orderId} is succeeded!"));
                     break;
             }
             return Ok();
