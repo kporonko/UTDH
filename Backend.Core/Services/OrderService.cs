@@ -39,6 +39,7 @@ namespace Backend.Core.Services
         {
             Order orderToAdd = new();
             _mapper.Map(order, orderToAdd);
+            await _context.Orders.AddAsync(orderToAdd);
             var addedOrder = await _context.Orders.AddAsync(orderToAdd);
             foreach (CartItemPostDTO item in order.CartItems)
             {
@@ -46,12 +47,12 @@ namespace Backend.Core.Services
                 {
                     return null;
                 }
-                _context.CartItems.Add(
+                await _context.CartItems.AddAsync(
                     new CartItem
                     {
                         CameraId = item.CameraId,
                         Amount = item.Amount,
-                        OrderId = addedOrder.Entity.Id
+                        Order = orderToAdd
                     });
             }
             await _context.SaveChangesAsync();
