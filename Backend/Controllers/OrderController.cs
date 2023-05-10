@@ -9,9 +9,11 @@ using Backend.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.Generic;
-using System.Net.Mail;
-using System.Net;
 using Backend.Core.Services;
+using MailKit.Net.Smtp;
+using System.Net.Mail;
+using MimeKit;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace Backend.Controllers
 {
@@ -19,6 +21,8 @@ namespace Backend.Controllers
     [Route("orders")]
     public class OrderController : Controller
     {
+        string CompanyEmail = "uthd2023@gmail.com";
+        string CompanyPassword = "oyowvxbisyngvxit";
         const string publicApiKey = "1";
         const string privateApiKey = "1";
         LiqPayClient liqPayClient = new LiqPayClient(publicApiKey, privateApiKey);
@@ -33,16 +37,16 @@ namespace Backend.Controllers
         }
 
         [HttpPost("payment")]
-        public async Task<ActionResult> LiqPayPost(string jsonData, string signature)
+        public async Task<ActionResult> LiqPayPost([FromBody] PaymantDto model)
         {
-            string sign = liqPayClient.StrToSign(publicApiKey + jsonData + privateApiKey);
+            string sign = liqPayClient.StrToSign(publicApiKey + model.Data + privateApiKey);
 
-            if (signature != sign)
+            if (model.Signature != sign)
             {
                 return BadRequest();
             }
 
-            var data = JsonConvert.DeserializeObject<Dictionary<String, Object>>(jsonData);
+            var data = JsonConvert.DeserializeObject<Dictionary<String, Object>>(model.Data);
             string status = data["status"].ToString();
             switch (status)
             {
@@ -56,7 +60,7 @@ namespace Backend.Controllers
                     {
                         break;
                     }
-                    SendSuccessEmail(order);
+                    // Send email
                     break;
             }
             return Ok();
@@ -74,6 +78,7 @@ namespace Backend.Controllers
             {
                 return BadRequest();
             }
+            Send(CreateEmailMessage(order.CustomerEmail, "Order status update", $"Your order {result.Id} is successfully accepted!"));
             return Ok(result);
         }
 
@@ -116,28 +121,36 @@ namespace Backend.Controllers
             return response.Status == LiqPayResponseStatus.Success;
         }
 
-        private void SendSuccessEmail(OrderGetDTO order)
+        private MimeMessage CreateEmailMessage(string email, string subject, string content)
         {
-            string subject = "Order status update";
-            string message = $"Your order {order.Id} is successfully accepted!";
-            SendEmailAsync(order.CustomerEmail, subject, message);
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(MailboxAddress.Parse(CompanyEmail));
+            emailMessage.To.Add(MailboxAddress.Parse(email));
+            emailMessage.Subject = subject;
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = content };
+            return emailMessage;
         }
-
-        private Task SendEmailAsync(string email, string subject, string message)
+        private void Send(MimeMessage mailMessage)
         {
-            var client = new SmtpClient("smtp.office365.com", 587)
+            using (var client = new SmtpClient())
             {
-                EnableSsl = true,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("your.email@live.com", "your password")
-            };
-
-            return client.SendMailAsync(
-                new MailMessage(from: "your.email@live.com",
-                                to: email,
-                                subject,
-                                message
-                                ));
+                try
+                {
+                    client.Connect("smtp.gmail.com", 465, true);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    client.Authenticate(CompanyEmail, CompanyPassword);
+                    client.Send(mailMessage);
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    client.Disconnect(true);
+                    client.Dispose();
+                }
+            }
         }
     }
 }
